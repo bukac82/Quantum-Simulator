@@ -1,0 +1,927 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.controls {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.control-group {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.control-group input, .control-group select {
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.control-group input:focus, .control-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin: 5px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #51cf66, #40c057);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(81,207,102,0.4);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    gap: 20px;
+}
+
+.gate-palette {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.gate-palette h3 {
+    margin-bottom: 15px;
+    color: #555;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.gate-category {
+    margin-bottom: 20px;
+}
+
+.gate-category h4 {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gate-item {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: grab;
+    font-weight: 600;
+    transition: all 0.3s;
+    user-select: none;
+}
+
+.gate-item:hover {
+    background: linear-gradient(45deg, #e9ecef, #dee2e6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.gate-item:active {
+    cursor: grabbing;
+}
+
+.gate-item.rotation {
+    background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+    border-color: #ffc107;
+}
+
+.gate-item.two-qubit {
+    background: linear-gradient(45deg, #d1ecf1, #b3d8e8);
+    border-color: #17a2b8;
+}
+
+.circuit-canvas {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    min-height: 500px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.circuit-grid {
+    position: relative;
+    min-width: 800px;
+}
+
+.qubit-line {
+    position: relative;
+    height: 80px;
+    border-bottom: 3px solid #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.qubit-label {
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #333;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 2px solid #333;
+}
+
+.gate-slot {
+    width: 60px;
+    height: 60px;
+    margin: 0 10px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.gate-slot.occupied {
+    border: 2px solid #333;
+    background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+}
+
+.gate-slot.drop-zone {
+    border-color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.placed-gate {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.placed-gate.single-qubit {
+    background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+    border: 2px solid #2196f3;
+}
+
+.placed-gate.rotation {
+    background: linear-gradient(45deg, #fff8e1, #ffecb3);
+    border: 2px solid #ff9800;
+}
+
+.placed-gate.two-qubit {
+    background: linear-gradient(45deg, #f3e5f5, #e1bee7);
+    border: 2px solid #9c27b0;
+}
+
+.remove-gate {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    display: none;
+}
+
+.placed-gate:hover .remove-gate {
+    display: block;
+}
+
+.cnot-connection {
+    position: absolute;
+    width: 3px;
+    background: #333;
+    z-index: 1;
+}
+
+.control-dot {
+    width: 10px;
+    height: 10px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+}
+
+.target-circle {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #333;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+.target-plus {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+}
+
+.target-plus::before,
+.target-plus::after {
+    content: '';
+    position: absolute;
+    background: #333;
+}
+
+.target-plus::before {
+    width: 16px;
+    height: 2px;
+    top: 7px;
+}
+
+.target-plus::after {
+    width: 2px;
+    height: 16px;
+    left: 7px;
+}
+
+.results-panel {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.results-panel h3 {
+    margin-bottom: 15px;
+    color: #555;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.state-display {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.measurement-results {
+    margin-top: 20px;
+}
+
+.probability-bar {
+    margin: 8px 0;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 30px;
+    position: relative;
+}
+
+.probability-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #51cf66, #40c057);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.probability-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+.angle-input {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.measurement-histogram {
+    margin-top: 15px;
+}
+
+.histogram-bar {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.histogram-label {
+    width: 40px;
+    font-weight: bold;
+}
+
+.histogram-fill {
+    height: 20px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    margin-right: 8px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+}
+
+.measurement-button {
+    margin-top: 15px;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border-left: 4px solid #f44336;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border-left: 4px solid #4caf50;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .gate-palette, .results-panel {
+        order: -1;
+    }
+}
+.result-display {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.result-display h4 {
+    margin-top: 0;
+    color: #495057;
+}
+
+.result-display p {
+    margin: 5px 0;
+}
+/* ================= VQE & QAOA sections ================= */
+
+/* =============== VQE & QAOA styling =============== */
+
+.control-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1400px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.control-section h3 {
+    margin-bottom: 15px;
+    color: #555;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.control-section label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.control-section textarea,
+.control-section input[type="number"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+}
+
+.control-section textarea:focus,
+.control-section input[type="number"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.control-section .action-button {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+.control-section .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+}
+/* Message styles */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+.info-message {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+/* Replace the existing measurement histogram styles with these updated ones */
+
+/* Measurement histogram styles - Updated for proper bar visualization */
+.measurement-bar {
+    display: flex;
+    align-items: stretch;
+    margin: 8px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 40px;
+    border: 1px solid #dee2e6;
+}
+
+.measurement-label {
+    min-width: 80px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    padding: 10px 15px;
+    background: #e9ecef;
+    color: #495057;
+    border-right: 2px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.measurement-fill {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: width 0.8s ease-in-out;
+    position: relative;
+    min-width: 0;
+}
+
+.measurement-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+    pointer-events: none;
+}
+
+/* Measurement histogram container */
+.measurement-histogram {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.measurement-histogram h4 {
+    margin-bottom: 15px;
+    color: #495057;
+    font-size: 1.1em;
+}
+
+#histogramBars {
+    margin-top: 10px;
+}
+
+/* Alternative histogram bar styles (if you prefer the original naming) */
+.histogram-bar {
+    display: flex;
+    align-items: stretch;
+    margin: 8px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 40px;
+    border: 1px solid #dee2e6;
+}
+
+.histogram-label {
+    min-width: 80px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    padding: 10px 15px;
+    background: #e9ecef;
+    color: #495057;
+    border-right: 2px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.histogram-fill {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: width 0.8s ease-in-out;
+    position: relative;
+    min-width: 0;
+}
+
+.histogram-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+    pointer-events: none;
+}
+/* ================= Tab System ================= */
+
+.tab-button {
+    margin: 0 5px;
+    position: relative;
+}
+
+.tab-button.active {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ================= Algorithm Cards ================= */
+
+.algorithm-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #667eea;
+}
+
+.algorithm-card h4 {
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.algorithm-card p {
+    color: #6c757d;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+/* ================= Enhanced Control Groups ================= */
+
+.control-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    transition: border-color 0.3s;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.control-group small {
+    display: block;
+    color: #6c757d;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.control-group input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+
+/* ================= Job Status Styling ================= */
+
+.job-item {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-item.running {
+    border-left: 4px solid #ffc107;
+    background: #fff3cd;
+}
+
+.job-item.completed {
+    border-left: 4px solid #28a745;
+    background: #d4edda;
+}
+
+.job-item.failed {
+    border-left: 4px solid #dc3545;
+    background: #f8d7da;
+}
+
+.job-id {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.job-status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.status-running {
+    background: #ffc107;
+    color: #212529;
+}
+
+.status-completed {
+    background: #28a745;
+    color: white;
+}
+
+.status-failed {
+    background: #dc3545;
+    color: white;
+}
+
+/* ================= Progress Bar ================= */
+
+.progress-container {
+    width: 100%;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    margin: 10px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ================= Enhanced Result Display ================= */
+
+.result-metric {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.result-metric:last-child {
+    border-bottom: none;
+}
+
+.metric-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.metric-value {
+    color: #007bff;
+    font-family: 'Courier New', monospace;
+}
+
+.solution-display {
+    background: #e3f2fd;
+    border: 1px solid #2196f3;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.cut-visualization {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+/* ================= Loading Spinner ================= */
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ================= Responsive Adjustments ================= */
+
+@media (max-width: 768px) {
+    .tab-button {
+        margin: 5px 2px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .algorithm-card {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .control-group {
+        margin-bottom: 15px;
+    }
+}
