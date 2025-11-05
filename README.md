@@ -14,7 +14,7 @@
 
 ## Overview
 
-This quantum circuit simulator provides a comprehensive platform for simulating quantum algorithms and circuits using classical computers. Built with PyTorch, it offers memory-optimized operations for simulating quantum systems up to practical limits.
+This quantum circuit simulator provides a comprehensive platform for simulating quantum algorithms and circuits using classical computers. Built with PyTorch, it offers memory-optimized operations for simulating quantum systems up to practical limits (GPU prefered).
 
 ### Key Features
 - **N-qubit quantum state simulation** with memory-optimized linear operations
